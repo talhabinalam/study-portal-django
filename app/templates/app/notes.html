@@ -6,14 +6,20 @@
 <div class="container">
     <div class="row">
         {% include 'includes/alerts.html' %}
+
         {% for note in notes %}
-        
         <div class="col-md-3 mb-4">
-            <a href="#">
+            <a href="{% url 'note_detail' note.id %}">
                 <div class="card">
                     <div class="card-header">{{ note.title }}</div>
-                    <div class="card-body">{{ note.description|slice:'0:100' }}</div>
-                    <div class="card-footer mt-auto "><a href="#">
+                    <div class="card-body">
+                    {% if note.description|length > 100 %}
+                        {{ note.description|slice:'0:100' }}...
+                    {% else %}
+                        {{ note.description }}
+                    {% endif %}
+                    </div>
+                    <div class="card-footer mt-auto "><a href="{% url 'delete_note' note.id %}">
                         <i class="fa fa-trash fa-2x"></i></a>
                     </div>
                 </div>

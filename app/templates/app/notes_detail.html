@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<section class='text-center container'>
+    <div class="container">
+        <div class="row justify-content-start mt-3">
+            <div class="col-auto">
+                <a class="btn btn-primary" href="{% url 'notes' %}">&#8592; Go Back</a>
+            </div>
+        </div>
+        <div class="content-section mt-3"> <!-- Adding mt-3 class here -->
+            <div class="m-3">
+                <h2>{{notes.title}}</h2>
+            </div>
+            <hr class="p-0 m-0">
+            <p class="description mt-5 mb-5">
+                {{notes.description}}
+            </p>
+            <hr>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

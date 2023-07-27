@@ -77,7 +77,6 @@ a:hover {
 }
 
 
-
 .card h4 {
     margin: 40px 40px 0 40px;
     text-align: left;
@@ -133,11 +132,9 @@ body {
 }
 
 
-
 .card-header {
     background-color: rgb(133, 204, 231);
 }
-
 
 
 .myimage {
@@ -147,31 +144,20 @@ body {
     backface-visibility: hidden;
 }
 
-/* .card-img-top {
-    opacity: 0.9;
-    transform: scale(1.02);
-    transition: 0.2s ease;
-    width: 303px;
-} */
 
-
-/* Default styles for the image */
 .card-img-top {
     opacity: 0.9;
     transform: scale(1.02);
     transition: 0.2s ease;
-    max-width: 100%; /* Ensures the image doesn't exceed its container */
-    height: auto; /* Allows the image to maintain its aspect ratio */
+    max-width: 100%;
+    height: auto; 
 }
 
-/* Add a media query for 720p displays */
 @media screen and (max-width: 1280px) {
     .card-img-top {
-        max-width: 50%; /* Adjust the image size to fit 720p screens */
+        max-width: 50%;
     }
 }
-
-
 
 
 .col-md-3 .card {
@@ -207,7 +193,6 @@ footer .container-fluid {
 footer .column a+a {
     padding: 0 0.7em;
 }
-
 
 
 .content-section {
