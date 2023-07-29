@@ -218,3 +218,25 @@ footer .column a+a {
 .account-heading {
     font-size: 2.5rem;
 }
+
+
+.btn-primary.custom-btn {
+    font-size: 14px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 5px;
+    width: 80px;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary.check {
+    background-color: #198754;
+    border: 1px solid #198754;
+}
+
+.btn-primary.uncheck {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+}
