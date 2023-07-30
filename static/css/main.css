@@ -256,3 +256,66 @@ footer .column a+a {
 .button-link:hover {
     background-color: #009708e1;
 }
+
+
+/* styling for the form */
+.custom-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styling for the input and the button container */
+.custom-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styling for the search input box */
+.custom-form-control {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 350px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.custom-form-control:focus {
+    border-color: #007bff;
+}
+
+/* Styling for the search button */
+.custom-btn {
+    margin-left: 8px;
+    padding: 8px 16px;
+    background-color: #17a2b8; 
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s;
+}
+
+.custom-btn:hover {
+    background-color: #138496; 
+}
+
+/* Styling for the reset button */
+.custom-reset-btn {
+    background-color: #dc3545;
+}
+
+.custom-reset-btn:hover {
+    background-color: #c82333;
+}
+
+/* Styling for the link inside the reset button */
+.custom-link {
+    color: #fff;
+    text-decoration: none;
+  }

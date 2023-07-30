@@ -11,4 +11,8 @@ urlpatterns = [
     path('delete_homework/<int:pk>', views.delete_homework, name='delete_homework'),
     path('homework_detail/<int:pk>', views.HomeworkDetailView.as_view(), name='homework_detail'),
     path('youtube/', views.youtube, name='youtube'),
+    path('todo/', views.todo, name='todo'),
+    path('update_todo/<int:pk>', views.update_todo, name='update_todo'),
+    path('delete_todo/<int:pk>', views.delete_todo, name='delete_todo'),
+    path('books/', views.books, name='books'),
 ]

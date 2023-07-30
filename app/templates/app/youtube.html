@@ -4,11 +4,16 @@
 <section class='text-center container'>
     <h2>Search Videos in Youtube</h2>
     <p>search videos and select any video to open in youtube</p>
-    <form action="" method="get">
+
+    <form action="" method="get" class="custom-form">
         {% csrf_token %}
-        <input type="text" name="text" value="{{ request.GET.text }}" placeholder="Enter your input.." required>
-        <input class="btn btn-danger" type="submit" value="Search">
-    </form><br>
+        <div class="custom-input-group">
+          <input type="text" name="text" value="{{ request.GET.text }}" class="custom-form-control" placeholder="Enter your input.." required>
+          <button class="custom-btn" type="submit">Search</button>
+          <button class="custom-btn custom-reset-btn" type="reset"><a href="{% url 'youtube' %}" class="custom-link">Reset</a></button>
+        </div>
+      </form>      
+    <br>
     
     {% if page_obj %}
     {% for result in page_obj %}
@@ -41,7 +46,7 @@
 
     <br>
 
-    <nav aria-label="Page navigation">
+    <!-- <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
                 <li class="page-item">
@@ -87,7 +92,39 @@
                 </li>
             {% endif %}
         </ul>
-    </nav>
+    </nav> -->
+
+    <nav aria-label="...">
+        <ul class="pagination justify-content-end">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?text={{ request.GET.text }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">Previous</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">Previous</span>
+          </li>
+          {% endif %}
+      
+          {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+              <a class="page-link" href="?text={{ request.GET.text }}&page={{ num }}">{{ num }} {% if page_obj.number == num %}<span class="sr-only">(current)</span>{% endif %}</a>
+            </li>
+          {% endfor %}
+      
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?text={{ request.GET.text }}&page={{ page_obj.next_page_number }}" aria-label="Next">Next</a>
+          </li>
+          {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">Next</span>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      
+
     {% endif %}
         
     <br>

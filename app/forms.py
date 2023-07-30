@@ -19,5 +19,11 @@ class HomeworkForm(forms.ModelForm):
         fields = ['subject', 'title', 'description', 'due', 'is_finished']
         
         
-class YoutubeForm(forms.Form):
-    text = forms.CharField(max_length=100, label="Enter your input ")
+class UniForm(forms.Form):
+    text = forms.CharField(max_length=100, label="Enter your input: ")
+    
+    
+class TodoForm(forms.ModelForm):
+    class Meta:
+        model = Todo
+        fields = ['title', 'is_finished']
