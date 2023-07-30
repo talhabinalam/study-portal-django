@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %} 
+{% load static %} 
+{% block content %}
+<section class='text-center container'>
+    <h2>Student Dictionary</h2>
+    <p>Enter any word to get the phonetics, definition, and an example for the word</p>
+
+    <form action="" method="post" class="custom-form">
+        {% csrf_token %}
+        <div class="custom-input-group">
+          <input type="text" name="text" value="{{ request.POST.text }}" class="custom-form-control-dictionary" placeholder="Enter any word.." required>
+          <button class="custom-btn" type="submit">Submit</button>
+          <button class="custom-btn custom-reset-btn" type="reset"><a href="{% url 'dictionary' %}" class="custom-link">Reset</a></button>
+        </div>
+    </form> 
+    
+    <br>
+    <div class="content-section p-0 mt-5">
+        {% if input %}
+        <div class="custom-header">
+            <h2>{{ input }}</h2>
+            <h6>{{ phonetics }}</h6>
+            
+            <audio id="player" src="{{ audio }}"></audio>
+            <div>
+                <a onclick="document.getElementById('player').play()"><i class='fa fa-volume-up fa-2x'></i></a>
+            </div>
+
+        </div>
+        <hr class="p-0 m-0">
+        <p class="float-left">
+            <h4><strong>Definition:</strong> {{ definition }}</h4>
+            <h4><strong>Example:</strong> {{ example }}</h4>
+        </p>
+        
+        {% if synonyms %}
+        Synonyms:
+        {% for synonym in synonyms %}
+            {{ synonym }}
+        {% endfor %}      
+        {% endif %}
+        
+        <hr>
+        {% else %}
+        <h2>Sorry, no input or no results found !</h2>        
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}
