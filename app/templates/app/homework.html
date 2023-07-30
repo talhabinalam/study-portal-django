@@ -23,7 +23,11 @@
             
             {% for homework in homeworks %}
             <tr>
-                <th scope="row">{{ forloop.counter }}</th>
+                <td scope="row">
+                    <a href="{% url 'homework_detail' homework.id %}"  class="button-link">
+                        {{ forloop.counter }}
+                    </a>
+                </td>                
                 <td>{{ homework.subject }}</td>
                 <td>{{ homework.title }}</td>
                 <td>

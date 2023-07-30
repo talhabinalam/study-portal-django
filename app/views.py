@@ -90,3 +90,7 @@ def update_homework(request, pk=None):
 def delete_homework(request, pk=None):
     HomeWork.objects.get(id=pk).delete()
     return redirect('homework')
+
+
+class HomeworkDetailView(generic.DetailView):
+    model = HomeWork
