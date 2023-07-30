@@ -17,3 +17,7 @@ class HomeworkForm(forms.ModelForm):
         model = HomeWork
         widgets = {'due':DateInput()}
         fields = ['subject', 'title', 'description', 'due', 'is_finished']
+        
+        
+class YoutubeForm(forms.Form):
+    text = forms.CharField(max_length=100, label="Enter your input ")
