@@ -293,6 +293,16 @@ footer .column a+a {
     transition: border-color 0.2s;
 }
 
+.custom-form-control-wiki {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 250px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
 .custom-form-control:focus {
     border-color: #007bff;
 }
@@ -329,3 +339,35 @@ footer .column a+a {
     color: #fff;
     text-decoration: none;
   }
+
+.hyperlink {
+    color: rgb(0, 89, 255);
+}
+
+
+.custom-container {
+    background: linear-gradient(135deg, #757575, #5DADE2);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100vw;
+    max-width: 100%;
+}
+
+/* Additional styles for the jumbotron */
+.custom-jumbotron {
+    background-color: #b9b4b4dc;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 18px;
+}
+
+/* Style for the Learn More button */
+.learn-more-btn {
+    background-color: #3498DB;
+    border: none;
+}
+
+.learn-more-btn:hover {
+    background-color: #2980B9;
+}

@@ -4,7 +4,13 @@ from . forms import *
 from django.contrib import messages
 from django.views import generic
 from youtubesearchpython import VideosSearch
+from django.urls import reverse
+from wikipedia.exceptions import PageError
+from django.contrib.auth.views import LoginView
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 import requests
+import wikipedia
 
 
 
@@ -13,6 +19,7 @@ def home(request):
 
 
 
+@login_required
 def notes(request):
     if request.method == 'POST':
         form = NotesForm(request.POST)
@@ -34,17 +41,20 @@ def notes(request):
 
 
 
+@login_required
 def delete_note(request, pk=None):
     Notes.objects.get(id=pk).delete()
     return redirect('notes')
 
 
 
+@method_decorator(login_required, name='dispatch')
 class NotesDetailView(generic.DetailView):
     model = Notes
     
-    
-    
+
+
+@login_required
 def homework(request):
     if request.method == 'POST':
         form = HomeworkForm(request.POST)
@@ -86,24 +96,42 @@ def homework(request):
 
 
 
+@login_required
 def update_homework(request, pk=None):
     homework = HomeWork.objects.get(id=pk)
-    if homework.is_finished == True:
+    if homework.is_finished:
         homework.is_finished = False
     else:
         homework.is_finished = True
     homework.save()
-    return redirect('homework')
+
+    # Check the referrer to determine where to redirect
+    referer = request.META.get('HTTP_REFERER', '')
+
+    # If the referrer contains 'profile' in its URL, redirect to 'profile' view
+    if 'profile' in referer:
+        return redirect(reverse('profile'))
+
+    # Otherwise, redirect to 'homework' view
+    return redirect(reverse('homework'))
 
 
 
+@login_required
 def delete_homework(request, pk=None):
     homework = HomeWork.objects.get(id=pk)
     homework.delete()
-    return redirect('homework')
+
+    referer = request.META.get('HTTP_REFERER', '')
+
+    if 'profile' in referer:
+        return redirect(reverse('profile'))
+
+    return redirect(reverse('homework'))
 
 
 
+@method_decorator(login_required, name='dispatch')
 class HomeworkDetailView(generic.DetailView):
     model = HomeWork
     
@@ -152,6 +180,7 @@ def youtube(request):
 
 
 
+@login_required
 def todo(request):
     if request.method == 'POST':
         form = TodoForm(request.POST)
@@ -190,20 +219,36 @@ def todo(request):
 
 
 
+@login_required
 def update_todo(request, pk=None):
     todo = Todo.objects.get(id=pk)
-    if todo.is_finished == True:
+    if todo.is_finished:
         todo.is_finished = False
     else:
         todo.is_finished = True
     todo.save()
-    return redirect('todo')
+
+    referer = request.META.get('HTTP_REFERER', '')
+
+    if 'profile' in referer:
+        return redirect(reverse('profile'))
+
+    return redirect(reverse('todo'))
 
 
+
+@login_required
 def delete_todo(request, pk=None):
     todo = Todo.objects.get(id=pk)
     todo.delete()
-    return redirect('todo')
+
+    referer = request.META.get('HTTP_REFERER', '')
+
+    if 'profile' in referer:
+        return redirect(reverse('profile'))
+
+    return redirect(reverse('todo'))
+
 
 
 def books(request):
@@ -243,6 +288,7 @@ def books(request):
     return render(request, 'app/books.html', context)
 
 
+
 def dictionary(request):
     if request.method == 'POST':
         form = UniForm(request.POST)
@@ -279,3 +325,140 @@ def dictionary(request):
             'form': form,
         }
     return render(request, 'app/dictionary.html', context)
+
+
+
+def wiki(request):
+    if request.method == 'POST':
+        text = request.POST['text']
+        form = UniForm(request.POST)
+        try:
+            search = wikipedia.page(text)
+            context = {
+                'form': form,
+                'title': search.title,
+                'link': search.url,
+                'details': search.summary,
+            }
+        except PageError:
+            context = {
+                'form': form,
+                'error': 'Page not found. Try another search term.',
+            }
+        return render(request, 'app/wiki.html', context)
+    else:
+        form = UniForm()
+        context = {
+            'form': form,
+        }
+    return render(request, 'app/wiki.html', context)
+
+
+
+def conversion(request):
+    if request.method == 'POST':
+        form = ConversionForm(request.POST)
+        if request.POST['measurement'] == 'length':
+            measurement_form = ConversionLengthForm()
+            context = {
+                'form': form,
+                'm_form': measurement_form,
+                'input': True,
+            }
+            if 'input' in request.POST:
+                first = request.POST['measure1']
+                second = request.POST['measure2']
+                input = request.POST['input']
+                answer = ''
+                if input and int(input) >= 0:
+                    if first == 'yard' and second == 'foot':
+                        answer = f'{input} yard = {int(input)*3} foot'
+                    if first == 'foot' and second == 'yard':
+                        answer = f'{input} foot = {int(input)/3} yard'
+                context = {
+                    'form': form,
+                    'm_form': measurement_form,
+                    'input': True,
+                    'answer': answer,
+                }
+        if request.POST['measurement'] == 'mass':
+            measurement_form = ConversionMassForm()
+            context = {
+                'form': form,
+                'm_form': measurement_form,
+                'input': True,
+            }
+            if 'input' in request.POST:
+                first = request.POST['measure1']
+                second = request.POST['measure2']
+                input = request.POST['input']
+                answer = ''
+                if input and int(input) >= 0:
+                    if first == 'pound' and second == 'kilogram':
+                        answer = f'{input} pound = {int(input)*0.453592} kilogram'
+                    if first == 'kilogram' and second == 'pound':
+                        answer = f'{input} kilogram = {int(input)*2.20462} pound'
+                context = {
+                    'form': form,
+                    'm_form': measurement_form,
+                    'input': True,
+                    'answer': answer,
+                } 
+            
+    else:
+        form = ConversionForm()
+        context = {
+            'form': form,
+            'input': False,
+        }
+    return render(request, 'app/conversion.html', context)
+    
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Registration completed successfully!")
+            return redirect('login')
+            
+    else:
+        form = UserRegForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'app/register.html', context)
+
+
+
+class CustomLoginView(LoginView):
+    template_name = 'app/login.html'
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "You are logged in succesfully!")
+        return response
+
+
+
+@login_required
+def profile(request):
+    homeworks = HomeWork.objects.filter(is_finished=False, user=request.user)
+    todos = Todo.objects.filter(is_finished=False, user=request.user)
+    if len(homeworks) == 0:
+        homeworks_done = True
+    else:
+        homeworks_done = False
+    if len(todos) == 0:
+        todos_done = True
+    else:
+        todos_done = False
+    context = {
+        'homeworks': homeworks,
+        'todos': todos,
+        'homeworks_done': homeworks_done,
+        'todos_done': todos_done,
+    }
+    
+    return render(request, 'app/profile.html', context)

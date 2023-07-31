@@ -2,6 +2,8 @@
 {% load static %} 
 {% block content %}
 
+
+<div class="container">{% include 'includes/alerts.html' %}</div>
 <section class="container text-center">
   <h3>Portal Features</h3>
 
@@ -93,7 +95,7 @@
       </a>
     </div>
     <div class="col-md-3">
-      <a href="#">
+      <a href="{% url 'wiki' %}">
         <div class="card">
           <img class="card-img-top" src="{% static 'images/wiki.jpg' %}" alt="Notes image">
           <div class="card-body">
@@ -107,7 +109,7 @@
     </div>
 
     <div class="col-md-3">
-      <a href="#">
+      <a href="{% url 'conversion' %}">
         <div class="card">
           <img class="card-img-top" src="{% static 'images/conversion.jpg' %}" alt="Notes image">
           <div class="card-body">

@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<section class='text-center container'>
+    <h2>Search articles in wikipedia</h2>
+    <p>just enter the search query to obtain the results</p><b>Enter without any space</b>
+
+    <form action="" method="post" class="custom-form mt-3">
+        {% csrf_token %}
+        <div class="custom-input-group">
+          <input type="text" name="text" value="{{ request.GET.text }}" class="custom-form-control-wiki" placeholder="Enter your input.." required>
+          <button class="custom-btn" type="submit">Search</button>
+          <button class="custom-btn custom-reset-btn" type="reset"><a href="{% url 'wiki' %}" class="custom-link">Reset</a></button>
+        </div>
+      </form>  
+    
+    <br>
+
+<div class="container">
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% else %}
+    <div class="content-section p-0 mt-5">
+        <a href="" class="p-0 m-0" target="_blank">
+            <div class="custom-header">
+                <h2>{{title}}</h2>{{title}}
+                <h6>{{link}}</h6>
+            </div>
+        </a>
+
+        <hr class="p-0 m-0">
+        <p class="description m-5 p-5">
+            {{details}}
+        </p>
+        <hr>
+    </div>
+    {% endif %}
+</div>
+
+</section>
+
+{% endblock content %}

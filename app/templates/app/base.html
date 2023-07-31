@@ -18,7 +18,6 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <!-- <a class="navbar-brand" href="{% url 'home' %}">Student Study Portal</a> -->
         <a href="{% url 'home' %}">
           <img class="logo" src="{% static 'images/logo.png' %}" alt="logo">
         </a>
@@ -31,8 +30,11 @@
             <li class="nav-item">
               <a class="nav-link " aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
+                        
+            {% if request.user.is_authenticated %}
+
             <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
+              <a class="nav-link" href="{% url 'profile' %}">Profile</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -44,27 +46,31 @@
                 <li><a class="dropdown-item" href="{% url 'homework' %}">Homework</a></li>
                 <li><a class="dropdown-item" href="{% url 'youtube' %}">Youtube</a></li>
                 <li><a class="dropdown-item" href="{% url 'todo' %}">To-do</a></li>
-                <li><a class="dropdown-item" href="#">Books</a></li>
-                <li><a class="dropdown-item" href="#">Dictionary</a></li>
-                <li><a class="dropdown-item" href="#">Wikipedia</a></li>
-                <li><a class="dropdown-item" href="#">Conversion</a></li>
+                <li><a class="dropdown-item" href="{% url 'books' %}">Books</a></li>
+                <li><a class="dropdown-item" href="{% url 'dictionary' %}">Dictionary</a></li>
+                <li><a class="dropdown-item" href="{% url 'wiki' %}">Wikipedia</a></li>
+                <li><a class="dropdown-item" href="{% url 'conversion' %}">Conversion</a></li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Logout</a>
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Register</a>
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
-            </li>
+                          
+            {% endif %}
+              
           </ul>
         </div>
       </div>
     </nav>
   </header>
-  <br /><br />
+  <br><br>
   <main>
 
     {% block content %}
